@@ -26,21 +26,13 @@ const serviceOptions = [
   'Maintenance & Support'
 ];
 
-const budgetRanges = [
-  'Under $1,000',
-  '$1,000 - $3,000',
-  '$3,000 - $8,000',
-  '$8,000+'
-];
 
 export default function ContactPage({ onNavigateHome }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    company: '',
     selectedServices: [],
-    budget: '',
     message: ''
   });
 
@@ -70,24 +62,54 @@ export default function ContactPage({ onNavigateHome }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const [submitError, setSubmitError] = useState(null);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
-    // Simulate API submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        selectedServices: [],
-        budget: '',
-        message: ''
+    const payload = {
+      access_key: '8be60e60-b0eb-47ca-8b5f-dbd39057f730',
+      subject: `New Portfolio Message from ${formData.name}`,
+      from_name: formData.name,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone || 'Not provided',
+      services: formData.selectedServices.length > 0 ? formData.selectedServices.join(', ') : 'None selected',
+      message: formData.message
+    };
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(payload)
       });
-    }, 1200);
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          selectedServices: [],
+          message: ''
+        });
+      } else {
+        setSubmitError(result.message || 'Failed to send message. Please try again.');
+      }
+    } catch (err) {
+      console.error('Web3Forms Error:', err);
+      setSubmitError('An error occurred while sending your message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCopy = (text, type) => {
@@ -211,54 +233,24 @@ export default function ContactPage({ onNavigateHome }) {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    placeholder="alex@company.com"
+                    placeholder="sohammondal1304@gmail.com"
                     className="contact-input-field"
                   />
                 </div>
               </div>
 
-              <div className="form-row-two-col">
-                <div className="form-group">
-                  <label className="form-label">Phone Number <span className="label-optional">(Optional)</span></label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="+1 (555) 000-0000"
-                    className="contact-input-field"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Company / Brand <span className="label-optional">(Optional)</span></label>
-                  <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    placeholder="Acme Inc."
-                    className="contact-input-field"
-                  />
-                </div>
-              </div>
-
-              {/* Budget Selection Pills */}
               <div className="form-group">
-                <label className="form-label">Estimated Budget Range</label>
-                <div className="budget-pills-list">
-                  {budgetRanges.map((range) => (
-                    <button
-                      type="button"
-                      key={range}
-                      className={`budget-pill ${formData.budget === range ? 'active' : ''}`}
-                      onClick={() => setFormData((prev) => ({ ...prev, budget: range }))}
-                    >
-                      {range}
-                    </button>
-                  ))}
-                </div>
+                <label className="form-label">Phone Number <span className="label-optional">(Optional)</span></label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="+91 9083861312"
+                  className="contact-input-field"
+                />
               </div>
+
 
               {/* Message Details */}
               <div className="form-group">
@@ -273,6 +265,12 @@ export default function ContactPage({ onNavigateHome }) {
                   className="contact-textarea-field"
                 />
               </div>
+
+              {submitError && (
+                <div style={{ color: '#ff4d4f', backgroundColor: 'rgba(255, 77, 79, 0.1)', padding: '10px 14px', borderRadius: '8px', fontSize: '14px', marginBottom: '16px' }}>
+                  {submitError}
+                </div>
+              )}
 
               {/* Submit Button */}
               <button 
@@ -308,17 +306,17 @@ export default function ContactPage({ onNavigateHome }) {
               </div>
               <div>
                 <span className="info-card-tag">Direct Email</span>
-                <h4 className="info-card-heading">hello@soham.studio</h4>
+                <h4 className="info-card-heading">sohammondal1304@gmail.com</h4>
               </div>
             </div>
             <div className="info-card-actions">
-              <a href="mailto:hello@soham.studio" className="btn-info-action">
+              <a href="mailto:sohammondal1304@gmail.com" className="btn-info-action">
                 <span>Send Email</span>
                 <ExternalLink size={14} />
               </a>
               <button 
                 className="btn-info-copy"
-                onClick={() => handleCopy('hello@soham.studio', 'email')}
+                onClick={() => handleCopy('sohammondal1304@gmail.com', 'email')}
               >
                 {copiedType === 'email' ? 'Copied!' : <Copy size={15} />}
               </button>
@@ -333,17 +331,17 @@ export default function ContactPage({ onNavigateHome }) {
               </div>
               <div>
                 <span className="info-card-tag">Call or WhatsApp</span>
-                <h4 className="info-card-heading">+91 98765 43210</h4>
+                <h4 className="info-card-heading">+91 9083861312</h4>
               </div>
             </div>
             <div className="info-card-actions">
-              <a href="tel:+919876543210" className="btn-info-action">
+              <a href="tel:+919083861312" className="btn-info-action">
                 <span>Call Now</span>
                 <ExternalLink size={14} />
               </a>
               <button 
                 className="btn-info-copy"
-                onClick={() => handleCopy('+91 98765 43210', 'phone')}
+                onClick={() => handleCopy('+91 9083861312', 'phone')}
               >
                 {copiedType === 'phone' ? 'Copied!' : <Copy size={15} />}
               </button>
@@ -364,48 +362,7 @@ export default function ContactPage({ onNavigateHome }) {
             </div>
           </div>
 
-          {/* Social Profiles Grid */}
-          <div className="social-profiles-box">
-            <h4 className="social-box-title">Connect via Socials</h4>
-            <div className="social-links-grid">
-              <a 
-                href="https://www.linkedin.com/in/soham-mondal-543455294/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="social-profile-btn"
-              >
-                <span>LinkedIn</span>
-                <ArrowLeft size={14} className="rotate-icon-up" />
-              </a>
-              <a 
-                href="https://github.com/soham1304s" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="social-profile-btn"
-              >
-                <span>GitHub</span>
-                <ArrowLeft size={14} className="rotate-icon-up" />
-              </a>
-              <a 
-                href="https://www.instagram.com/soham.mondal.1304/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="social-profile-btn"
-              >
-                <span>Instagram</span>
-                <ArrowLeft size={14} className="rotate-icon-up" />
-              </a>
-              <a 
-                href="https://dribbble.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="social-profile-btn"
-              >
-                <span>Dribbble</span>
-                <ArrowLeft size={14} className="rotate-icon-up" />
-              </a>
-            </div>
-          </div>
+
 
           {/* FAQ Accordion Summary */}
           <div className="contact-faq-preview">

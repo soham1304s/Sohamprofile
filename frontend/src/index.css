@@ -2698,6 +2698,23 @@ body.dark-mode .skills-category-card:hover {
   box-shadow: 0 12px 32px var(--gold-glow);
 }
 
+body.dark-mode .category-card-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .category-card-title,
+body.dark-mode .skill-name {
+  color: #ffffff;
+}
+
+body.dark-mode .skill-level {
+  color: #94a3b8;
+}
+
+body.dark-mode .skill-item-box:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
 body.dark-mode .skill-item-title,
 body.dark-mode .skill-category-title {
   color: #ffffff;

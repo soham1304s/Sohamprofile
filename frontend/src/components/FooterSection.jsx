@@ -4,11 +4,38 @@ import { ArrowUpRight } from 'lucide-react';
 export default function FooterSection() {
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email) {
-      alert(`Thank you for reaching out! We'll contact you at ${email}`);
-      setEmail('');
+    if (!email) return;
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: '8be60e60-b0eb-47ca-8b5f-dbd39057f730',
+          subject: `Portfolio Footer Email Submission from ${email}`,
+          email: email,
+          message: `Newsletter / Contact request from portfolio footer: ${email}`
+        })
+      });
+      const result = await response.json();
+      if (result.success) {
+        alert(`Thank you for reaching out! We'll contact you at ${email}`);
+        setEmail('');
+      } else {
+        alert(result.message || 'Submission failed. Please try again.');
+      }
+    } catch (err) {
+      alert('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -51,6 +78,7 @@ export default function FooterSection() {
                   type="submit"
                   className="btn-arrow-circle-red"
                   aria-label="Submit Email"
+                  disabled={isSubmitting}
                 >
                   <ArrowUpRight size={22} strokeWidth={2.2} />
                 </button>
@@ -83,18 +111,18 @@ export default function FooterSection() {
             <div className="footer-col-info">
               <div className="footer-contact-item">
                 <a
-                  href="mailto:hello@soham.studio"
+                  href="mailto:sohammondal1304@gmail.com"
                   className="footer-email-link"
                 >
-                  hello@soham.studio
+                  sohammondal1304@gmail.com
                 </a>
               </div>
               <div className="footer-contact-item">
                 <span className="footer-info-text">Kolkata, India</span>
               </div>
               <div className="footer-contact-item">
-                <a href="tel:+919876543210" className="footer-phone-link">
-                  +91 98765 43210
+                <a href="tel:+919083861312" className="footer-phone-link">
+                  +91 9083861312
                 </a>
               </div>
             </div>
