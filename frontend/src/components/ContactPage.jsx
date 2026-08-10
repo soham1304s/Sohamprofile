@@ -12,8 +12,11 @@ import {
   ShieldCheck,
   MessageSquare,
   Sparkles,
-  ExternalLink
+  ExternalLink,
+  Download,
+  FileText
 } from 'lucide-react';
+import cvFile from '../Soham Mondal CV.pdf';
 
 const serviceOptions = [
   'Full-Stack Web App',
@@ -359,6 +362,33 @@ export default function ContactPage({ onNavigateHome }) {
                 <h4 className="info-card-heading">Kolkata, India</h4>
                 <p className="info-card-subtext">IST (UTC+5:30) • Remote Worldwide</p>
               </div>
+            </div>
+          </div>
+
+          {/* Curriculum Vitae (CV) Card */}
+          <div className="info-card">
+            <div className="info-card-header">
+              <div className="info-icon-wrapper" style={{ background: '#16181c', color: '#ffffff' }}>
+                <FileText size={22} />
+              </div>
+              <div>
+                <span className="info-card-tag">Curriculum Vitae</span>
+                <h4 className="info-card-heading">Soham Mondal CV</h4>
+                <p className="info-card-subtext">Official PDF • Full-Stack Developer</p>
+              </div>
+            </div>
+            <div className="info-card-actions">
+              <a
+                href={cvFile}
+                download="Soham_Mondal_CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-info-action"
+                style={{ background: 'var(--accent-red, #e50914)', color: '#ffffff', border: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+              >
+                <span>Download CV</span>
+                <Download size={14} />
+              </a>
             </div>
           </div>
 

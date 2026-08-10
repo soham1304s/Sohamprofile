@@ -1,6 +1,7 @@
 import React from 'react';
 import { Award, FolderCheck, Headphones, ArrowUpRight, Sparkles, Download } from 'lucide-react';
 import aboutImg from '../assets/badge_avatar.png';
+import cvFile from '../Soham Mondal CV.pdf';
 
 export default function AboutSection() {
   return (
@@ -74,9 +75,12 @@ export default function AboutSection() {
           {/* Action Row */}
           <div className="about-cta-row">
             <a
-              href="/Soham_Mondal_CV.pdf"
+              href={cvFile}
               download="Soham_Mondal_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-download-cv"
+              title="Download Soham Mondal's Professional CV"
             >
               <Download size={17} strokeWidth={2.2} />
               <span>Download CV</span>

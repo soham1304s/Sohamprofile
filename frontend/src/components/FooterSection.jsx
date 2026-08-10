@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import cvFile from '../Soham Mondal CV.pdf';
 
 export default function FooterSection() {
   const [email, setEmail] = useState('');
@@ -100,6 +101,16 @@ export default function FooterSection() {
                 </li>
                 <li>
                   <a href="#gallery">Gallery</a>
+                </li>
+                <li>
+                  <a
+                    href={cvFile}
+                    download="Soham_Mondal_CV.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download CV
+                  </a>
                 </li>
                 <li>
                   <a href="#contact">Contact</a>
