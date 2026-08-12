@@ -10,11 +10,14 @@ import WorksGallerySection from './components/WorksGallerySection';
 import FaqSection from './components/FaqSection';
 import FooterSection from './components/FooterSection';
 import ContactPage from './components/ContactPage';
+import TerminalModal from './components/TerminalModal';
 
 function App() {
   const [currentPage, setCurrentPage] = useState(() => {
     return window.location.hash === '#contact-page' ? 'contact' : 'home';
   });
+
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   const handleNavigate = (page, targetId) => {
     setCurrentPage(page);
@@ -56,7 +59,7 @@ function App() {
         <>
           <HeroSection />
           <SocialLinks />
-          <AboutSection />
+          <AboutSection onOpenTerminal={() => setIsTerminalOpen(true)} />
           <SkillsSection />
           <AwardsSection />
           <ServicesSection />
@@ -66,6 +69,11 @@ function App() {
       )}
 
       <FooterSection />
+
+      <TerminalModal
+        isOpen={isTerminalOpen}
+        onClose={() => setIsTerminalOpen(false)}
+      />
     </div>
   );
 }

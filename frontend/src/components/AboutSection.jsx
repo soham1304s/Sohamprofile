@@ -1,9 +1,9 @@
 import React from 'react';
-import { Award, FolderCheck, Headphones, ArrowUpRight, Sparkles, Download } from 'lucide-react';
+import { Award, FolderCheck, Headphones, ArrowUpRight, Sparkles, Download, Terminal } from 'lucide-react';
 import aboutImg from '../assets/badge_avatar.png';
 import cvFile from '../Soham Mondal CV.pdf';
 
-export default function AboutSection() {
+export default function AboutSection({ onOpenTerminal }) {
   return (
     <section className="about-section" id="about">
       {/* Header Section */}
@@ -86,10 +86,22 @@ export default function AboutSection() {
               <span>Download CV</span>
             </a>
 
-            <a href="#contact" className="btn-about-contact">
-              Talk With Me
-            </a>
-            <button className="btn-arrow-circle" aria-label="Talk With Me">
+            <button
+              type="button"
+              className="btn-about-contact"
+              onClick={onOpenTerminal}
+              title="Open Interactive Developer Terminal"
+            >
+              <Terminal size={16} style={{ marginRight: '6px' }} />
+              Open In Terminal
+            </button>
+            <button
+              type="button"
+              className="btn-arrow-circle"
+              aria-label="Open In Terminal"
+              onClick={onOpenTerminal}
+              title="Open Interactive Developer Terminal"
+            >
               <ArrowUpRight size={22} strokeWidth={2.2} />
             </button>
           </div>
